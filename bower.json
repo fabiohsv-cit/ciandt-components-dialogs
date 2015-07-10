@@ -1,0 +1,21 @@
+{
+  "name": "ciandt-components-dialogs",
+  "version": "0.0.1",
+  "homepage": "https://github.com/fabiohsv-cit/ciandt-components-dialogs",
+  "authors": [
+    "Fábio Henrique da Silva Viana <fabiohsv@ciandt.com>"
+  ],
+  "description": "Dialogs component written in angularjs",
+  "main": ["dialogs.js", "dialogs-ctrls.js", "dialogs-alert.html", "dialogs-confirm.html"],
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "angular",
+    "dialogs",
+	"alert",
+	"confirm",
+	"modal"
+  ],
+  "license": "MIT"
+}
