@@ -5,8 +5,8 @@ define(['ciandt-components-dialogs-ctrls'], function () {
     angular.module('ciandt.components.dialogs', ['ciandt.components.dialogs.ctrls']);
 
     angular.module('ciandt.components.dialogs').constant('ciandt.components.dialogs.DialogsConfig', {
-        templateUrlAlert: "app/common/components/dialogs/dialogs-alert.html",
-        templateUrlConfirm: "app/common/components/dialogs/dialogs-confirm.html"
+        templateUrlAlert: "assets/libs/ciandt-components-dialogs/dialogs-alert.html",
+        templateUrlConfirm: "assets/libs/ciandt-components-dialogs/dialogs-confirm.html"
     }).factory('ciandt.components.dialogs.AlertHelper', ['$injector', 'ciandt.components.dialogs.DialogsConfig', function ($injector, DialogsConfig) {
         var $modal = $injector.get('$modal');
 
