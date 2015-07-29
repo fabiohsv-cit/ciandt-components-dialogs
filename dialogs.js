@@ -69,7 +69,34 @@ define(['ciandt-components-dialogs-ctrls'], function () {
         var $modal = $injector.get('$modal');
 
         return {
-            open: function (templateUrl, controller, resolve, onOk, onCancel, options) {
+            open: function (templateUrl) {
+				var controller, resolve, onOk, onCancel, options;
+				var i=0;
+				
+				if (arguments.length > 1 && (typeof arguments[1] == 'string' || _.isArray(arguments[1]))) {
+					controller = arguments[1];
+					i++;
+				}
+				
+				if (arguments.length > 1+i && typeof arguments[i+1] == 'object') {
+					resolve = arguments[i+1];
+					i++;
+				}
+				
+				if (arguments.length > 1+i && typeof arguments[i+1] == 'function') {
+					onOk = arguments[i+1];
+					i++;
+				}
+				
+				if (arguments.length > 1+i && typeof arguments[i+1] == 'function') {
+					onCancel = arguments[i+1];
+					i++;
+				}
+				
+				if (arguments.length > 1+i) {
+					options = arguments[i+1];
+				}
+				
                 var _resolver = {};
                 angular.forEach(resolve, function (value, key) {
                     if (typeof value !== 'function') {
@@ -81,7 +108,7 @@ define(['ciandt-components-dialogs-ctrls'], function () {
                     }
                 });
 
-                var controllerAs = !_.isArray(controller) ? controller.split(/[. ]+/).pop() : undefined;
+                var controllerAs = controller && !_.isArray(controller) ? controller.split(/[. ]+/).pop() : undefined;
                 if (controllerAs) {
                     controllerAs = controllerAs.charAt(0).toLowerCase() + controllerAs.slice(1);
                 }
