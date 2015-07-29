@@ -78,7 +78,7 @@ define(['ciandt-components-dialogs-ctrls'], function () {
 					i++;
 				}
 				
-				if (arguments.length > 1+i && typeof arguments[i+1] == 'object') {
+				if (arguments.length > 1+i && (typeof arguments[i+1] == 'undefined' || typeof arguments[i+1] == 'object')) {
 					resolve = arguments[i+1];
 					i++;
 				}
@@ -97,9 +97,11 @@ define(['ciandt-components-dialogs-ctrls'], function () {
 					options = arguments[i+1];
 				}
 				
+				var _argsCtrl = ['$scope'];
                 var _resolver = {};
                 angular.forEach(resolve, function (value, key) {
-                    if (typeof value !== 'function') {
+                    _argsCtrl.push(key);
+					if (typeof value !== 'function') {
                         _resolver[key] = function () {
                             return value;
                         };
@@ -107,6 +109,19 @@ define(['ciandt-components-dialogs-ctrls'], function () {
                         _resolver[key] = value;
                     }
                 });
+
+				if (!controller && resolve) {
+					// cria controller temporário para expor resolve no scopo
+					_argsCtrl.push(function ($scope) {
+						var _args = arguments;
+						var index=1;
+						angular.forEach(resolve, function (value, key) {
+							$scope[key] = _args[index];
+							index++;
+						});
+					});
+					controller = _argsCtrl;
+				}
 
                 var controllerAs = controller && !_.isArray(controller) ? controller.split(/[. ]+/).pop() : undefined;
                 if (controllerAs) {
