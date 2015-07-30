@@ -9,19 +9,41 @@ define(['ciandt-components-dialogs-ctrls'], function () {
         templateUrlConfirm: "assets/libs/ciandt-components-dialogs/dialogs-confirm.html"
     }).factory('ciandt.components.dialogs.AlertHelper', ['$injector', 'ciandt.components.dialogs.DialogsConfig', function ($injector, DialogsConfig) {
         var $modal = $injector.get('$modal');
+        var modalMessages = [];
 
         function showMessages(messages) {
-            $modal.open({
-                templateUrl: DialogsConfig.templateUrlAlert,
-                controller: "ciandt.components.dialogs.AlertCtrl",
-                windowClass: 'alert-modal-window',
-                resolve: {
-                    items: function () {
-                        return messages;
+
+            if (modalMessages.length == 0) {
+                $modal.open({
+                    templateUrl: DialogsConfig.templateUrlAlert,
+                    controller: "ciandt.components.dialogs.AlertCtrl",
+                    windowClass: 'alert-modal-window',
+                    resolve: {
+                        items: function () {
+                            return modalMessages;
+                        }
                     }
-                }
+                }).result.then(cleanMessages, cleanMessages);
+            };
+
+            angular.forEach(messages, function (newItem, newItemIndex) {
+                var exists = false;
+
+                angular.forEach(modalMessages, function (modalItem, modalItemIndex) {
+                    if (newItem.message == modalItem.message) {
+                        exists = true
+                        return;
+                    };
+                });
+
+                if (!exists)
+                    modalMessages.push(newItem);
             });
-        }
+        };
+
+        function cleanMessages() {
+            modalMessages = [];
+        };
 
         return {
             confirm: function (message, onOk, onCancel) {
