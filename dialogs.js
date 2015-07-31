@@ -1,13 +1,13 @@
 'use strict';
 
-define(['ciandt-components-dialogs-ctrls'], function () {
+define(['ng-jedi-dialogs-ctrls'], function () {
 
-    angular.module('ciandt.components.dialogs', ['ciandt.components.dialogs.ctrls']);
+    angular.module('jedi.dialogs', ['jedi.dialogs.ctrls']);
 
-    angular.module('ciandt.components.dialogs').constant('ciandt.components.dialogs.DialogsConfig', {
-        templateUrlAlert: "assets/libs/ciandt-components-dialogs/dialogs-alert.html",
-        templateUrlConfirm: "assets/libs/ciandt-components-dialogs/dialogs-confirm.html"
-    }).factory('ciandt.components.dialogs.AlertHelper', ['$injector', 'ciandt.components.dialogs.DialogsConfig', function ($injector, DialogsConfig) {
+    angular.module('jedi.dialogs').constant('jedi.dialogs.DialogsConfig', {
+        templateUrlAlert: "assets/libs/ng-jedi-dialogs/dialogs-alert.html",
+        templateUrlConfirm: "assets/libs/ng-jedi-dialogs/dialogs-confirm.html"
+    }).factory('jedi.dialogs.AlertHelper', ['$injector', 'jedi.dialogs.DialogsConfig', function ($injector, DialogsConfig) {
         var $modal = $injector.get('$modal');
         var modalMessages = [];
 
@@ -16,7 +16,7 @@ define(['ciandt-components-dialogs-ctrls'], function () {
             if (modalMessages.length == 0) {
                 $modal.open({
                     templateUrl: DialogsConfig.templateUrlAlert,
-                    controller: "ciandt.components.dialogs.AlertCtrl",
+                    controller: "jedi.dialogs.AlertCtrl",
                     windowClass: 'alert-modal-window',
                     resolve: {
                         items: function () {
@@ -49,7 +49,7 @@ define(['ciandt-components-dialogs-ctrls'], function () {
             confirm: function (message, onOk, onCancel) {
                 $modal.open({
                     templateUrl: DialogsConfig.templateUrlConfirm,
-                    controller: "ciandt.components.dialogs.ConfirmCtrl",
+                    controller: "jedi.dialogs.ConfirmCtrl",
                     backdrop: 'static',
                     keyboard: false,
                     windowClass: 'alert-modal-window',
@@ -87,7 +87,7 @@ define(['ciandt-components-dialogs-ctrls'], function () {
                 this.addMessages(message, 'text-dangerwarning');
             }
         };
-    }]).factory('ciandt.components.dialogs.ModalHelper', ['$injector', function ($injector) {
+    }]).factory('jedi.dialogs.ModalHelper', ['$injector', function ($injector) {
         var $modal = $injector.get('$modal');
 
         return {

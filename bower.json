@@ -1,9 +1,9 @@
 {
-  "name": "ciandt-components-dialogs",
+  "name": "ng-jedi-dialogs",
   "version": "0.0.1",
-  "homepage": "https://github.com/fabiohsv-cit/ciandt-components-dialogs",
+  "homepage": "https://github.com/ng-jedi/dialogs",
   "authors": [
-    "Fábio Henrique da Silva Viana <fabiohsv@ciandt.com>"
+    "Fábio Henrique da Silva Viana <fabioviana.bh@gmail.com>"
   ],
   "description": "Dialogs component written in angularjs",
   "main": ["dialogs.js", "dialogs-ctrls.js", "dialogs-alert.html", "dialogs-confirm.html"],

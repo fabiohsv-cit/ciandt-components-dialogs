@@ -1,4 +1,4 @@
-# ciandt-components-dialogs
+# ng-jedi-dialogs
 Dialogs component written in angularjs.
 
 ### Install
@@ -6,44 +6,44 @@ Dialogs component written in angularjs.
 * Install the dependency:
 
    ```shell
-   bower install ciandt-components-dialogs --save
+   bower install ng-jedi-dialogs --save
    ```
 * Add dialogs.js and dialogs-ctrls.js to your code:
 
    ```html
-   <script src='assets/libs/ciandt-components-dialogs/dialogs.js'></script>
-   <script src='assets/libs/ciandt-components-dialogs/dialogs-ctrls.js'></script>
+   <script src='assets/libs/ng-jedi-dialogs/dialogs.js'></script>
+   <script src='assets/libs/ng-jedi-dialogs/dialogs-ctrls.js'></script>
    ```
    - note that the base directory used was assets/libs, you should change bower_components to assets/libs or move from bower_components to assets/libs with grunt.
 * Include module dependency:
 
    ```javascript
-   angular.module('yourApp', ['ciandt.components.dialogs']);
+   angular.module('yourApp', ['jedi.dialogs']);
    ```
 ======
 
 ### How To Use
 
-1. **If necessary, to customize the default template, you should change template url in constant object ciandt.components.dialogs.DialogsConfig**
+1. **If necessary, to customize the default template, you should change template url in constant object jedi.dialogs.DialogsConfig**
 
    ```javascript
-   app.config(['ciandt.components.dialogs.DialogsConfig', function(DialogsConfig){
+   app.config(['jedi.dialogs.DialogsConfig', function(DialogsConfig){
       DialogsConfig.templateUrlAlert = "app/common/components/dialogs/dialogs-alert.html";
       DialogsConfig.templateUrlConfirm = "app/common/components/dialogs/dialogs-confirm.html";
    }]);
    ```
-   - default templates are stored in ciandt-components-dialogs/dialogs-alert.html and ciandt-components-dialogs/dialogs-confirm.html
+   - default templates are stored in ng-jedi-dialogs/dialogs-alert.html and ng-jedi-dialogs/dialogs-confirm.html
 2. **Confirmation dialog**
 
    ```javascript
-   app.controller('yourController', ['ciandt.components.dialogs.AlertHelper', function(AlertHelper){
+   app.controller('yourController', ['jedi.dialogs.AlertHelper', function(AlertHelper){
       .
       .
       AlertHelper.confirm('Your confirmation message', function(){
-		// yes event
-	  }, function(){
-		// no event
-	  });
+         // yes event
+      }, function(){
+         // no event
+      });
       .
       .
    }]);
@@ -51,12 +51,12 @@ Dialogs component written in angularjs.
 3. **Alert dialog**
 
    ```javascript
-   app.controller('yourController', ['ciandt.components.dialogs.AlertHelper', function(AlertHelper){
+   app.controller('yourController', ['jedi.dialogs.AlertHelper', function(AlertHelper){
       .
       .
       AlertHelper.addInfo('Your info message'); // bootstrap class text-info
-	  AlertHelper.addError('Your error message'); // bootstrap class text-danger
-	  AlertHelper.addWarn('Your warn message'); // bootstrap class text-dangerwarning
+	   AlertHelper.addError('Your error message'); // bootstrap class text-danger
+	   AlertHelper.addWarn('Your warn message'); // bootstrap class text-dangerwarning
       .
       .
    }]);
@@ -64,7 +64,7 @@ Dialogs component written in angularjs.
 4. **Custom modal dialog**
 
    ```javascript
-   app.controller('yourController', ['ciandt.components.dialogs.ModalHelper', function(ModalHelper){
+   app.controller('yourController', ['jedi.dialogs.ModalHelper', function(ModalHelper){
       .
       .
       ModalHelper.open('yourModal.html', 'yourControllerName', { param1: value1, param2: value2 }, function () {
