@@ -78,13 +78,25 @@ define(['ng-jedi-dialogs-ctrls'], function () {
                 showMessages(_messages);
             },
             addInfo: function (message) {
-                this.addMessages(message, 'text-info');
+                if (typeof message == 'string') {
+                    this.addMessages(message, 'text-info');
+                } else {
+                    showMessages(message);
+                }
             },
             addError: function (message) {
-                this.addMessages(message, 'text-danger');
+                if (typeof message == 'string') {
+                    this.addMessages(message, 'text-danger');
+                } else {
+                    showMessages(message);
+                }
             },
             addWarn: function (message) {
-                this.addMessages(message, 'text-dangerwarning');
+                if (typeof message == 'string') {
+                    this.addMessages(message, 'text-dangerwarning');
+                } else {
+                    showMessages(message);
+                }
             }
         };
     }]).factory('jedi.dialogs.ModalHelper', ['$injector', function ($injector) {
