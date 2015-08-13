@@ -124,41 +124,42 @@ define(['ng-jedi-dialogs-ctrls'], function () {
         };
     }]).factory('jedi.dialogs.ModalHelper', ['$injector', function ($injector) {
         var $modal = $injector.get('$modal');
+        var instances = [];
 
         return {
             open: function (templateUrl) {
-				var controller, resolve, onOk, onCancel, options;
-				var i=0;
-				
-				if (arguments.length > 1 && (typeof arguments[1] == 'string' || _.isArray(arguments[1]))) {
-					controller = arguments[1];
-					i++;
-				}
-				
-				if (arguments.length > 1+i && (typeof arguments[i+1] == 'undefined' || typeof arguments[i+1] == 'object')) {
-					resolve = arguments[i+1];
-					i++;
-				}
-				
-				if (arguments.length > 1+i && typeof arguments[i+1] == 'function') {
-					onOk = arguments[i+1];
-					i++;
-				}
-				
-				if (arguments.length > 1+i && typeof arguments[i+1] == 'function') {
-					onCancel = arguments[i+1];
-					i++;
-				}
-				
-				if (arguments.length > 1+i) {
-					options = arguments[i+1];
-				}
-				
-				var _argsCtrl = ['$scope'];
+                var controller, resolve, onOk, onCancel, options;
+                var i=0;
+                
+                if (arguments.length > 1 && (typeof arguments[1] == 'string' || _.isArray(arguments[1]))) {
+                    controller = arguments[1];
+                    i++;
+                }
+                
+                if (arguments.length > 1+i && (typeof arguments[i+1] == 'undefined' || typeof arguments[i+1] == 'object')) {
+                    resolve = arguments[i+1];
+                    i++;
+                }
+                
+                if (arguments.length > 1+i && typeof arguments[i+1] == 'function') {
+                    onOk = arguments[i+1];
+                    i++;
+                }
+                
+                if (arguments.length > 1+i && typeof arguments[i+1] == 'function') {
+                    onCancel = arguments[i+1];
+                    i++;
+                }
+                
+                if (arguments.length > 1+i) {
+                    options = arguments[i+1];
+                }
+                
+                var _argsCtrl = ['$scope'];
                 var _resolver = {};
                 angular.forEach(resolve, function (value, key) {
                     _argsCtrl.push(key);
-					if (typeof value !== 'function') {
+                    if (typeof value !== 'function') {
                         _resolver[key] = function () {
                             return value;
                         };
@@ -167,18 +168,18 @@ define(['ng-jedi-dialogs-ctrls'], function () {
                     }
                 });
 
-				if (!controller && resolve) {
-					// cria controller temporário para expor resolve no scopo
-					_argsCtrl.push(function ($scope) {
-						var _args = arguments;
-						var index=1;
-						angular.forEach(resolve, function (value, key) {
-							$scope[key] = _args[index];
-							index++;
-						});
-					});
-					controller = _argsCtrl;
-				}
+                if (!controller && resolve) {
+                    // cria controller temporário para expor resolve no scopo
+                    _argsCtrl.push(function ($scope) {
+                        var _args = arguments;
+                        var index=1;
+                        angular.forEach(resolve, function (value, key) {
+                            $scope[key] = _args[index];
+                            index++;
+                        });
+                    });
+                    controller = _argsCtrl;
+                }
 
                 var controllerAs = controller && !_.isArray(controller) ? controller.split(/[. ]+/).pop() : undefined;
                 if (controllerAs) {
@@ -200,10 +201,30 @@ define(['ng-jedi-dialogs-ctrls'], function () {
                 }
 
                 var instance = $modal.open(options);
+                instances.push(instance);
 
-                instance.result.then(onOk, onCancel);
+                instance.result.then(function() {
+                    instances = _.filter(instances, function(item) {
+                        return item !== instance;
+                    });
+                    if (onOk) {
+                        onOk.apply(onOk, arguments);
+                    }
+                }, function() {
+                    instances = _.filter(instances, function(item) {
+                        return item !== instance;
+                    });
+                    if (onCancel) {
+                        onCancel.apply(onCancel, arguments);
+                    }
+                });
 
                 return instance;
+            },
+            closeAll: function() {
+                angular.forEach(instances, function(instance) {
+                    instance.close();
+                });
             }
         };
     }]);
