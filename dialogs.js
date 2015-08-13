@@ -10,11 +10,13 @@ define(['ng-jedi-dialogs-ctrls'], function () {
     }).factory('jedi.dialogs.AlertHelper', ['$injector', 'jedi.dialogs.DialogsConfig', function ($injector, DialogsConfig) {
         var $modal = $injector.get('$modal');
         var modalMessages = [];
+        var modalMessagesInstance;
+        var modalConfirmInstance;
 
         function showMessages(messages) {
 
             if (modalMessages.length == 0) {
-                $modal.open({
+                modalMessagesInstance = $modal.open({
                     templateUrl: DialogsConfig.templateUrlAlert,
                     controller: "jedi.dialogs.AlertCtrl",
                     windowClass: 'alert-modal-window',
@@ -23,7 +25,8 @@ define(['ng-jedi-dialogs-ctrls'], function () {
                             return modalMessages;
                         }
                     }
-                }).result.then(cleanMessages, cleanMessages);
+                });
+                modalMessagesInstance.result.then(cleanMessages, cleanMessages);
             };
 
             angular.forEach(messages, function (newItem, newItemIndex) {
@@ -43,11 +46,12 @@ define(['ng-jedi-dialogs-ctrls'], function () {
 
         function cleanMessages() {
             modalMessages = [];
+            modalMessagesInstance = null;
         };
 
         return {
             confirm: function (message, onOk, onCancel) {
-                $modal.open({
+                modalConfirmInstance = $modal.open({
                     templateUrl: DialogsConfig.templateUrlConfirm,
                     controller: "jedi.dialogs.ConfirmCtrl",
                     backdrop: 'static',
@@ -64,7 +68,18 @@ define(['ng-jedi-dialogs-ctrls'], function () {
                             return onCancel;
                         }
                     }
-                }).result.then(onOk, onCancel);
+                });
+                modalConfirmInstance.result.then(function() {
+                    modalConfirmInstance = null;
+                    if (onOk) {
+                        onOk();
+                    }
+                }, function() {
+                    modalConfirmInstance = null;
+                    if (onCancel) {
+                        onCancel();
+                    }
+                });
             },
             addMessages: function (messages, type) {
                 var _messages = [];
@@ -96,6 +111,14 @@ define(['ng-jedi-dialogs-ctrls'], function () {
                     this.addMessages(message, 'text-dangerwarning');
                 } else {
                     showMessages(message);
+                }
+            },
+            close: function () {
+                if (modalMessagesInstance) {
+                    modalMessagesInstance.close();
+                }
+                if (modalConfirmInstance) {
+                    modalConfirmInstance.close();
                 }
             }
         };
