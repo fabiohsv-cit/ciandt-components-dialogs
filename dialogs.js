@@ -122,9 +122,10 @@ define(['ng-jedi-dialogs-ctrls'], function () {
                 }
             }
         };
-    }]).factory('jedi.dialogs.ModalHelper', ['$injector', function ($injector) {
+    }]).factory('jedi.dialogs.ModalHelper', ['$injector', '$log', function ($injector, $log) {
         var $modal = $injector.get('$modal');
         var instances = [];
+        var DESTROY_EVT = 'destroy';
 
         return {
             open: function (templateUrl) {
@@ -207,14 +208,14 @@ define(['ng-jedi-dialogs-ctrls'], function () {
                     instances = _.filter(instances, function(item) {
                         return item !== instance;
                     });
-                    if (onOk) {
+                    if (onOk && !(arguments.length == 1 && arguments[0] === DESTROY_EVT)) {
                         onOk.apply(onOk, arguments);
                     }
                 }, function() {
                     instances = _.filter(instances, function(item) {
                         return item !== instance;
                     });
-                    if (onCancel) {
+                    if (onCancel && !(arguments.length == 1 && arguments[0] === DESTROY_EVT)) {
                         onCancel.apply(onCancel, arguments);
                     }
                 });
@@ -223,7 +224,7 @@ define(['ng-jedi-dialogs-ctrls'], function () {
             },
             closeAll: function() {
                 angular.forEach(instances, function(instance) {
-                    instance.close();
+                    instance.dismiss(DESTROY_EVT);
                 });
             }
         };
