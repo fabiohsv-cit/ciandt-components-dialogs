@@ -142,12 +142,12 @@ define(['ng-jedi-dialogs-ctrls'], function () {
                     i++;
                 }
                 
-                if (arguments.length > 1+i && typeof arguments[i+1] == 'function') {
+                if (arguments.length > 1+i && (typeof arguments[i+1] == 'undefined' || typeof arguments[i+1] == 'function')) {
                     onOk = arguments[i+1];
                     i++;
                 }
                 
-                if (arguments.length > 1+i && typeof arguments[i+1] == 'function') {
+                if (arguments.length > 1+i && (typeof arguments[i+1] == 'undefined' || typeof arguments[i+1] == 'function')) {
                     onCancel = arguments[i+1];
                     i++;
                 }
