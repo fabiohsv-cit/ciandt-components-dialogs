@@ -69,12 +69,12 @@ define(['ng-jedi-dialogs-ctrls'], function () {
                         }
                     }
                 });
-                modalConfirmInstance.result.then(function() {
+                modalConfirmInstance.result.then(function () {
                     modalConfirmInstance = null;
                     if (onOk) {
                         onOk();
                     }
-                }, function() {
+                }, function () {
                     modalConfirmInstance = null;
                     if (onCancel) {
                         onCancel();
@@ -130,32 +130,32 @@ define(['ng-jedi-dialogs-ctrls'], function () {
         return {
             open: function (templateUrl) {
                 var controller, resolve, onOk, onCancel, options;
-                var i=0;
-                
+                var i = 0;
+
                 if (arguments.length > 1 && (typeof arguments[1] == 'string' || _.isArray(arguments[1]))) {
                     controller = arguments[1];
                     i++;
                 }
-                
-                if (arguments.length > 1+i && (typeof arguments[i+1] == 'undefined' || typeof arguments[i+1] == 'object')) {
-                    resolve = arguments[i+1];
+
+                if (arguments.length > 1 + i && (typeof arguments[i + 1] == 'undefined' || typeof arguments[i + 1] == 'object')) {
+                    resolve = arguments[i + 1];
                     i++;
                 }
-                
-                if (arguments.length > 1+i && (typeof arguments[i+1] == 'undefined' || typeof arguments[i+1] == 'function')) {
-                    onOk = arguments[i+1];
+
+                if (arguments.length > 1 + i && (typeof arguments[i + 1] == 'undefined' || typeof arguments[i + 1] == 'function')) {
+                    onOk = arguments[i + 1];
                     i++;
                 }
-                
-                if (arguments.length > 1+i && (typeof arguments[i+1] == 'undefined' || typeof arguments[i+1] == 'function')) {
-                    onCancel = arguments[i+1];
+
+                if (arguments.length > 1 + i && (typeof arguments[i + 1] == 'undefined' || typeof arguments[i + 1] == 'function')) {
+                    onCancel = arguments[i + 1];
                     i++;
                 }
-                
-                if (arguments.length > 1+i) {
-                    options = arguments[i+1];
+
+                if (arguments.length > 1 + i) {
+                    options = arguments[i + 1];
                 }
-                
+
                 var _argsCtrl = ['$scope'];
                 var _resolver = {};
                 angular.forEach(resolve, function (value, key) {
@@ -173,7 +173,7 @@ define(['ng-jedi-dialogs-ctrls'], function () {
                     // cria controller temporário para expor resolve no scopo
                     _argsCtrl.push(function ($scope) {
                         var _args = arguments;
-                        var index=1;
+                        var index = 1;
                         angular.forEach(resolve, function (value, key) {
                             $scope[key] = _args[index];
                             index++;
@@ -204,15 +204,15 @@ define(['ng-jedi-dialogs-ctrls'], function () {
                 var instance = $modal.open(options);
                 instances.push(instance);
 
-                instance.result.then(function() {
-                    instances = _.filter(instances, function(item) {
+                instance.result.then(function () {
+                    instances = _.filter(instances, function (item) {
                         return item !== instance;
                     });
                     if (onOk && !(arguments.length == 1 && arguments[0] === DESTROY_EVT)) {
                         onOk.apply(onOk, arguments);
                     }
-                }, function() {
-                    instances = _.filter(instances, function(item) {
+                }, function () {
+                    instances = _.filter(instances, function (item) {
                         return item !== instance;
                     });
                     if (onCancel && !(arguments.length == 1 && arguments[0] === DESTROY_EVT)) {
@@ -222,12 +222,13 @@ define(['ng-jedi-dialogs-ctrls'], function () {
 
                 return instance;
             },
-            closeAll: function() {
-                angular.forEach(instances, function(instance) {
+            closeAll: function () {
+                angular.forEach(instances, function (instance) {
                     instance.dismiss(DESTROY_EVT);
                 });
             }
         };
+    }]).run(['$templateCache', function ($templateCache) {
+        $templateCache.put('directives/toast/toast.html', "<div class=\"{{toastClass}} {{toastType}}\" ng-click=\"tapToast()\">\n  <div ng-switch on=\"allowHtml\">\n    <div ng-switch-default ng-if=\"title\" class=\"{{titleClass}}\" jd-i18n>{{title}}</div>\n    <div ng-switch-default class=\"{{messageClass}}\" jd-i18n>{{message}}</div>\n    <div ng-switch-when=\"true\" ng-if=\"title\" class=\"{{titleClass}}\" ng-bind-html=\"title\"></div>\n    <div ng-switch-when=\"true\" class=\"{{messageClass}}\" ng-bind-html=\"message\"></div>\n  </div>\n  <progress-bar ng-if=\"progressBar\"></progress-bar>\n</div>\n");
     }]);
-
 });
