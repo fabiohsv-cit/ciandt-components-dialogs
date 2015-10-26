@@ -196,7 +196,7 @@ define(['ng-jedi-dialogs-ctrls'], function () {
                 };
 
                 if (options) {
-                    options = angular.extend(options, _options);
+                    options = angular.extend(_options, options);
                 } else {
                     options = _options;
                 }
