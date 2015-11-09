@@ -1,6 +1,16 @@
 ﻿"use strict";
 
-define(['angular'], function(){
+(function (factory) {
+    if (typeof define === 'function') {
+        define(["angular"], factory);
+    } else {
+        if (typeof module !== "undefined" && typeof exports !== "undefined" && module.exports === exports){
+            module.exports = 'jedi.dialogs.ctrls';
+        }
+        return factory();
+    }
+}(function() {
+
     angular.module('jedi.dialogs.ctrls', []).controller("jedi.dialogs.AlertCtrl", ["$scope", "$modalInstance", "items", function ($scope, $modalInstance, items) {
         $scope.items = items;
         $scope.ok = function () {
@@ -12,4 +22,5 @@ define(['angular'], function(){
             $modalInstance.close();
         };
     }]);
-});
+
+}));

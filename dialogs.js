@@ -1,12 +1,25 @@
 'use strict';
 
-define(['ng-jedi-dialogs-ctrls'], function () {
+(function (factory) {
+    if (typeof define === 'function') {
+        define(["ng-jedi-dialogs-ctrls"], factory);
+    } else {
+        if (typeof module !== "undefined" && typeof exports !== "undefined" && module.exports === exports){
+            module.exports = 'jedi.dialogs';
+            if (typeof require === 'function') {
+                require("ng-jedi-dialogs-ctrls");
+            }
+        }
+        return factory();
+    }
+}(function() {
 
     angular.module('jedi.dialogs', ['jedi.dialogs.ctrls']);
 
     angular.module('jedi.dialogs').constant('jedi.dialogs.DialogsConfig', {
         templateUrlAlert: "assets/libs/ng-jedi-dialogs/dialogs-alert.html",
-        templateUrlConfirm: "assets/libs/ng-jedi-dialogs/dialogs-confirm.html"
+        templateUrlConfirm: "assets/libs/ng-jedi-dialogs/dialogs-confirm.html",
+        applyJdi18nToast: true
     }).factory('jedi.dialogs.AlertHelper', ['$injector', 'jedi.dialogs.DialogsConfig', function ($injector, DialogsConfig) {
         var $modal = $injector.get('$modal');
         var modalMessages = [];
@@ -228,7 +241,9 @@ define(['ng-jedi-dialogs-ctrls'], function () {
                 });
             }
         };
-    }]).run(['$templateCache', function ($templateCache) {
-        $templateCache.put('directives/toast/toast.html', "<div class=\"{{toastClass}} {{toastType}}\" ng-click=\"tapToast()\">\n  <div ng-switch on=\"allowHtml\">\n    <div ng-switch-default ng-if=\"title\" class=\"{{titleClass}}\" jd-i18n>{{title}}</div>\n    <div ng-switch-default class=\"{{messageClass}}\" jd-i18n>{{message}}</div>\n    <div ng-switch-when=\"true\" ng-if=\"title\" class=\"{{titleClass}}\" ng-bind-html=\"title\"></div>\n    <div ng-switch-when=\"true\" class=\"{{messageClass}}\" ng-bind-html=\"message\"></div>\n  </div>\n  <progress-bar ng-if=\"progressBar\"></progress-bar>\n</div>\n");
+    }]).run(['$templateCache', 'jedi.dialogs.DialogsConfig', function ($templateCache, DialogsConfig) {
+        if (DialogsConfig.applyJdi18nToast) {
+            $templateCache.put('directives/toast/toast.html', "<div class=\"{{toastClass}} {{toastType}}\" ng-click=\"tapToast()\">\n  <div ng-switch on=\"allowHtml\">\n    <div ng-switch-default ng-if=\"title\" class=\"{{titleClass}}\" jd-i18n>{{title}}</div>\n    <div ng-switch-default class=\"{{messageClass}}\" jd-i18n>{{message}}</div>\n    <div ng-switch-when=\"true\" ng-if=\"title\" class=\"{{titleClass}}\" ng-bind-html=\"title\"></div>\n    <div ng-switch-when=\"true\" class=\"{{messageClass}}\" ng-bind-html=\"message\"></div>\n  </div>\n  <progress-bar ng-if=\"progressBar\"></progress-bar>\n</div>\n");
+        }
     }]);
-});
+}));
