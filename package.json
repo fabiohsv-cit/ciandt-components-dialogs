@@ -1,12 +1,11 @@
 {
-  "name": "ng-jedi-utilities",
+  "name": "ng-jedi-dialogs",
   "version": "0.0.1",
-  "description": "Utilities to make life easier on settings and other needs during development with angularjs",
-  "repository": "https://github.com/jediproject/ng-jedi-utilities",
+  "description": "Dialogs component written in angularjs",
+  "repository": "https://github.com/jediproject/ng-jedi-dialogs",
   "license": "MIT",
   "dependencies": {
-    "angular": "^1.4.4",
-    "ng-jedi-dialogs": "^0.0.1"
+    "angular": "^1.4.4"
   },
   "devDependencies": {
     "coffee-script": "~1.6.2",
@@ -17,7 +16,7 @@
     "grunt": "~0.4.1"
   },
   "main": [
-    "utilities.js"
+    "dialogs.js"
   ],
   "author": {
 	"name": "Fábio Henrique da Silva Viana",
@@ -26,30 +25,9 @@
   },
   "keywords": [
 	  "angular",
-    "utilities",
-    "cors",
-    "cpf",
-    "cnpj",
-    "IIS",
-    "exceptionhandler",
-    "exception handler",
-    "modelstate",
-    "model state",
-    "translate",
-    "boolean to text",
-    "capitalize",
-    "validateequals",
-    "validate equals",
-    "fullscreen",
-    "full screen",
-    "dynamicdirective",
-    "dynamic directive",
-    "interpolate",
-    "interpolate directive",
-    "asyncvalidate",
-    "async validate",
-    "async validate directive",
-    "enter",
-    "If-Modified-Since"
+    "dialogs",
+    "alert",
+    "confirm",
+    "modal"
   ]
 }

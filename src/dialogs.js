@@ -1,31 +1,3 @@
-/*
- ng-jedi-dialogs v0.0.1
- Dialogs component written in angularjs
- https://github.com/jediproject/ng-jedi-dialogs
-*/
-(function (factory) {
-    if (typeof define === 'function') {
-        define(["angular"], factory);
-    } else {
-        if (typeof module !== "undefined" && typeof exports !== "undefined" && module.exports === exports){
-            module.exports = 'jedi.dialogs';
-        }
-        return factory();
-    }
-}(function() {
-	"use strict";
-
-    angular.module('jedi.dialogs.ctrls', []).controller("jedi.dialogs.AlertCtrl", ["$scope", "$modalInstance", "items", function ($scope, $modalInstance, items) {
-        $scope.items = items;
-        $scope.ok = function () {
-            $modalInstance.close();
-        };
-    }]).controller("jedi.dialogs.ConfirmCtrl", ["$scope", "$modalInstance", "message", function ($scope, $modalInstance, message, onOk, onCancel) {
-        $scope.message = message;
-        $scope.ok = function () {
-            $modalInstance.close();
-        };
-    }]);
     angular.module('jedi.dialogs', ['jedi.dialogs.ctrls']);
 
     angular.module('jedi.dialogs').constant('jedi.dialogs.DialogsConfig', {
@@ -200,7 +172,7 @@
                 });
 
                 if (!controller && resolve) {
-                    // cria controller temporï¿½rio para expor resolve no scopo
+                    // cria controller temporário para expor resolve no scopo
                     _argsCtrl.push(function ($scope) {
                         var _args = arguments;
                         var index = 1;
@@ -280,5 +252,3 @@
                                                                                 '    </div>'+
                                                                                 '</div>');
     }]);
-
-}));

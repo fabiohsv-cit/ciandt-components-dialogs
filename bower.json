@@ -6,7 +6,7 @@
     "Fábio Henrique da Silva Viana <fabioviana.bh@gmail.com>"
   ],
   "description": "Dialogs component written in angularjs",
-  "main": ["dialogs.js", "dialogs-ctrls.js", "dialogs-alert.html", "dialogs-confirm.html"],
+  "main": ["dialogs.js"],
   "moduleType": [
     "globals"
   ],

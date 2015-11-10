@@ -17,15 +17,15 @@ module.exports = (grunt) ->
         clean:
             working:
                 src: [
-                    'utilities.js'
+                    'dialogs.js'
                 ]
 
         uglify:
 
             # concat js files before minification
             js:
-                src: ['utilities.js']
-                dest: 'utilities.min.js'
+                src: ['dialogs.js']
+                dest: 'dialogs.min.js'
                 options:
                     banner: '<%= banner %>'
                     sourceMap: (fileName) ->
@@ -39,12 +39,11 @@ module.exports = (grunt) ->
                     stripBanners: true
                 src: [
                     'src/intro.js',
-                    'src/utilities-directives.js',
-                    'src/utilities-filters.js',
-                    'src/utilities.js',
+                    'src/dialogs-ctrls.js',
+                    'src/dialogs.js',
                     'src/outro.js'
                 ]
-                dest: 'utilities.js'
+                dest: 'dialogs.js'
 
     # Register grunt tasks supplied by grunt-contrib-*.
     # Referenced in package.json.
