@@ -1,4 +1,4 @@
-# ng-jedi-dialogs
+# [ng-jedi-dialogs](https://github.com/jediproject/ng-jedi-dialogs)
 Dialogs component for your application.
 ###### Written in [AngularJs](https://angularjs.org/)
 
