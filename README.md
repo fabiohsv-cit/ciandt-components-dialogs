@@ -8,23 +8,19 @@ Dialogs component for your application.
 ### Install
 
 * Install the dependency:
+```shell
+bower install ng-jedi-dialogs --save
+```
 
-   ```shell
-      bower install ng-jedi-dialogs --save
-   ```
 * Add dialogs.js and dialogs-ctrls.js to your code:
-
-   ```html
-      <script src='assets/libs/ng-jedi-dialogs/dialogs.js'></script>
-      <script src='assets/libs/ng-jedi-dialogs/dialogs-ctrls.js'></script>
-   ```
-   - Note that the base directory used was assets/libs, you should change bower_components to assets/libs or move from bower_components to assets/libs with [Grunt](http://gruntjs.com/).
+```html
+<script src='assets/libs/ng-jedi-dialogs/dialogs.js'></script>
+```
 
 * Include module dependency:
-
-   ```javascript
-      angular.module('yourApp', ['jedi.dialogs']);
-   ```
+```javascript
+angular.module('yourApp', ['jedi.dialogs']);
+```
 
 ======
 
