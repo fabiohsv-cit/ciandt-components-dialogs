@@ -1,5 +1,5 @@
 /*
- ng-jedi-dialogs v0.0.1
+ ng-jedi-dialogs v0.0.2
  Dialogs component written in angularjs
  https://github.com/jediproject/ng-jedi-dialogs
 */
@@ -152,7 +152,32 @@
                 }
             }
         };
-    }]).factory('jedi.dialogs.ModalHelper', ['$injector', '$log', function ($injector, $log) {
+    }]).factory('jedi.dialogs.Modal', [function() {
+        /**
+         * Simple wrapper
+         */
+        function Modal(instance) {
+            this.instance = instance;
+        }
+        
+        Modal.prototype.open = function() {
+            return this.instance.open.apply(this.instance.open, arguments);
+        };
+        
+        Modal.prototype.close = function() {            
+            return this.instance.close.apply(this.instance.close, arguments);
+        };
+        
+        Modal.prototype.dismiss = function() {            
+            return this.instance.dismiss.apply(this.instance.dismiss, arguments);
+        };
+        
+        Modal.prototype.getResult = function() {
+            return this.instance.result;  
+        };
+        
+        return Modal;
+    }]).factory('jedi.dialogs.ModalHelper', ['jedi.dialogs.Modal', '$injector', '$log', function (Modal, $injector, $log) {
         var $modal = $injector.get('$modal');
         var instances = [];
         var DESTROY_EVT = 'destroy';
@@ -231,10 +256,10 @@
                     options = _options;
                 }
 
-                var instance = $modal.open(options);
+                var instance = new Modal($modal.open(options));
                 instances.push(instance);
 
-                instance.result.then(function () {
+                instance.getResult().then(function () {
                     instances = _.filter(instances, function (item) {
                         return item !== instance;
                     });

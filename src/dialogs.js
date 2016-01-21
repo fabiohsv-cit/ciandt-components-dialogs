@@ -124,7 +124,32 @@
                 }
             }
         };
-    }]).factory('jedi.dialogs.ModalHelper', ['$injector', '$log', function ($injector, $log) {
+    }]).factory('jedi.dialogs.Modal', [function() {
+        /**
+         * Simple wrapper
+         */
+        function Modal(instance) {
+            this.instance = instance;
+        }
+        
+        Modal.prototype.open = function() {
+            return this.instance.open.apply(this.instance.open, arguments);
+        };
+        
+        Modal.prototype.close = function() {            
+            return this.instance.close.apply(this.instance.close, arguments);
+        };
+        
+        Modal.prototype.dismiss = function() {            
+            return this.instance.dismiss.apply(this.instance.dismiss, arguments);
+        };
+        
+        Modal.prototype.getResult = function() {
+            return this.instance.result;  
+        };
+        
+        return Modal;
+    }]).factory('jedi.dialogs.ModalHelper', ['jedi.dialogs.Modal', '$injector', '$log', function (Modal, $injector, $log) {
         var $modal = $injector.get('$modal');
         var instances = [];
         var DESTROY_EVT = 'destroy';
@@ -172,7 +197,7 @@
                 });
 
                 if (!controller && resolve) {
-                    // cria controller temporário para expor resolve no scopo
+                    // cria controller temporï¿½rio para expor resolve no scopo
                     _argsCtrl.push(function ($scope) {
                         var _args = arguments;
                         var index = 1;
@@ -203,10 +228,10 @@
                     options = _options;
                 }
 
-                var instance = $modal.open(options);
+                var instance = new Modal($modal.open(options));
                 instances.push(instance);
 
-                instance.result.then(function () {
+                instance.getResult().then(function () {
                     instances = _.filter(instances, function (item) {
                         return item !== instance;
                     });
