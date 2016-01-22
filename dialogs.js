@@ -1,5 +1,5 @@
 /*
- ng-jedi-dialogs v0.0.2
+ ng-jedi-dialogs v0.0.3
  Dialogs component written in angularjs
  https://github.com/jediproject/ng-jedi-dialogs
 */
@@ -38,7 +38,7 @@
         confirmYesLabel: 'Yes',
         confirmNoLabel: 'No'
     }).factory('jedi.dialogs.AlertHelper', ['$injector', 'jedi.dialogs.DialogsConfig', function ($injector, DialogsConfig) {
-        var $modal = $injector.get('$modal');
+        var modalHelper = $injector.get('jedi.dialogs.ModalHelper');
         var modalMessages = [];
         var modalMessagesInstance;
         var modalConfirmInstance;
@@ -46,8 +46,7 @@
         function showMessages(messages) {
 
             if (modalMessages.length == 0) {
-                modalMessagesInstance = $modal.open({
-                    templateUrl: DialogsConfig.templateUrlAlert,
+                modalMessagesInstance = modalHelper.open(DialogsConfig.templateUrlAlert, undefined, undefined, undefined,  {
                     controller: "jedi.dialogs.AlertCtrl",
                     windowClass: 'alert-modal-window',
                     resolve: {
@@ -81,8 +80,7 @@
 
         return {
             confirm: function (message, onOk, onCancel) {
-                modalConfirmInstance = $modal.open({
-                    templateUrl: DialogsConfig.templateUrlConfirm,
+                modalConfirmInstance = modalHelper.open(DialogsConfig.templateUrlConfirm, undefined, undefined, undefined, {                    
                     controller: "jedi.dialogs.ConfirmCtrl",
                     backdrop: 'static',
                     keyboard: false,
@@ -152,12 +150,16 @@
                 }
             }
         };
-    }]).factory('jedi.dialogs.Modal', [function() {
+    }]).factory('jedi.dialogs.Modal', ['$injector', function($injector) {
         /**
          * Simple wrapper
          */
-        function Modal(instance) {
-            this.instance = instance;
+        function Modal(options) {
+            var $modal = $injector.get('$modal');
+            
+            this.instance = $modal.open(options);
+            
+            this.result = this.instance.result;
         }
         
         Modal.prototype.open = function() {
@@ -172,13 +174,8 @@
             return this.instance.dismiss.apply(this.instance.dismiss, arguments);
         };
         
-        Modal.prototype.getResult = function() {
-            return this.instance.result;  
-        };
-        
         return Modal;
-    }]).factory('jedi.dialogs.ModalHelper', ['jedi.dialogs.Modal', '$injector', '$log', function (Modal, $injector, $log) {
-        var $modal = $injector.get('$modal');
+    }]).factory('jedi.dialogs.ModalHelper', ['jedi.dialogs.Modal', '$injector', '$log', function (Modal, $injector, $log) {        
         var instances = [];
         var DESTROY_EVT = 'destroy';
 
@@ -256,10 +253,10 @@
                     options = _options;
                 }
 
-                var instance = new Modal($modal.open(options));
+                var instance = new Modal(options);
                 instances.push(instance);
 
-                instance.getResult().then(function () {
+                instance.result.then(function () {
                     instances = _.filter(instances, function (item) {
                         return item !== instance;
                     });
