@@ -1,4 +1,4 @@
-    angular.module('jedi.dialogs', ['jedi.dialogs.ctrls']);
+    angular.module('jedi.dialogs', []);
 
     angular.module('jedi.dialogs').constant('jedi.dialogs.DialogsConfig', {
         templateUrlAlert: "assets/libs/ng-jedi-dialogs/dialogs-alert.html",
@@ -8,8 +8,40 @@
         confirmTitle: 'Attention!',
         alertOkLabel: 'Ok',
         confirmYesLabel: 'Yes',
-        confirmNoLabel: 'No'
-    }).factory('jedi.dialogs.AlertHelper', ['$injector', 'jedi.dialogs.DialogsConfig', function ($injector, DialogsConfig) {
+        confirmNoLabel: 'No',
+        uiImplementation: {
+            alert: '<div jd-modal jd-title="{{alertTitle}}">'+
+                    '    <ul class="alert-message">'+
+                    '        <li class="{{ item.type }}" ng-repeat="item in items" jd-i18n>{{ item.message }}</li>'+
+                    '    </ul>'+
+                    '    <div class="modal-footer">'+
+                    '        <button class="btn btn-primary" ng-click="ok()" jd-i18n>{{ alertOkLabel }}</button>'+
+                    '    </div>'+
+                    '</div>',
+            confirm: '<div jd-modal jd-title="{{confirmTitle}}" jd-hide-close-btn>'+
+                    '    <p class="text-info alert-message" jd-i18n>{{message}}</p>'+
+                    '    <div class="modal-footer">'+
+                    '        <button class="btn btn-primary" ng-click="ok()" jd-i18n>{{ confirmYesLabel }}</button>'+
+                    '        <button class="btn btn-primary" jd-dismiss-modal jd-i18n>{{ confirmNoLabel }}</button>'+
+                    '    </div>'+
+                    '</div>'
+        }
+    }).controller("jedi.dialogs.AlertCtrl", ["$scope", "$modalInstance", "jedi.dialogs.DialogsConfig", "items", function ($scope, $modalInstance, DialogsConfig, items) {
+        $scope.items = items;
+        $scope.alertTitle = DialogsConfig.alertTitle;
+        $scope.alertOkLabel = DialogsConfig.alertOkLabel;
+        $scope.ok = function () {
+            $modalInstance.close();
+        };
+    }]).controller("jedi.dialogs.ConfirmCtrl", ["$scope", "$modalInstance", "jedi.dialogs.DialogsConfig", "message", function ($scope, $modalInstance, DialogsConfig, message, onOk, onCancel) {
+        $scope.message = message;
+        $scope.confirmTitle = DialogsConfig.confirmTitle;
+        $scope.confirmYesLabel = DialogsConfig.confirmYesLabel;
+        $scope.confirmNoLabel = DialogsConfig.confirmNoLabel;
+        $scope.ok = function () {
+            $modalInstance.close();
+        };
+    }]).factory('jedi.dialogs.AlertHelper', ['$injector', 'jedi.dialogs.DialogsConfig', function ($injector, DialogsConfig) {
         var modalHelper = $injector.get('jedi.dialogs.ModalHelper');
         var modalMessages = [];
         var modalMessagesInstance;
@@ -257,20 +289,6 @@
             $templateCache.put('directives/toast/toast.html', "<div class=\"{{toastClass}} {{toastType}}\" ng-click=\"tapToast()\">\n  <div ng-switch on=\"allowHtml\">\n    <div ng-switch-default ng-if=\"title\" class=\"{{titleClass}}\" jd-i18n>{{title}}</div>\n    <div ng-switch-default class=\"{{messageClass}}\" jd-i18n>{{message}}</div>\n    <div ng-switch-when=\"true\" ng-if=\"title\" class=\"{{titleClass}}\" ng-bind-html=\"title\"></div>\n    <div ng-switch-when=\"true\" class=\"{{messageClass}}\" ng-bind-html=\"message\"></div>\n  </div>\n  <progress-bar ng-if=\"progressBar\"></progress-bar>\n</div>\n");
         }
 
-        $templateCache.put('assets/libs/ng-jedi-dialogs/dialogs-alert.html', '<div jd-modal jd-title="'+DialogsConfig.alertTitle+'">'+
-                                                                             '    <ul class="alert-message">'+
-                                                                             '        <li class="{{ item.type }}" ng-repeat="item in items" jd-i18n>{{ item.message }}</li>'+
-                                                                             '    </ul>'+
-                                                                             '    <div class="modal-footer">'+
-                                                                             '        <button class="btn btn-primary" ng-click="ok()" jd-i18n>'+DialogsConfig.alertOkLabel+'</button>'+
-                                                                             '    </div>'+
-                                                                             '</div>');
-
-        $templateCache.put('assets/libs/ng-jedi-dialogs/dialogs-confirm.html',  '<div jd-modal jd-title="'+DialogsConfig.confirmTitle+'" jd-hide-close-btn>'+
-                                                                                '    <p class="text-info alert-message" jd-i18n>{{message}}</p>'+
-                                                                                '    <div class="modal-footer">'+
-                                                                                '        <button class="btn btn-primary" ng-click="ok()" jd-i18n>'+DialogsConfig.confirmYesLabel+'</button>'+
-                                                                                '        <button class="btn btn-primary" jd-dismiss-modal jd-i18n>'+DialogsConfig.confirmNoLabel+'</button>'+
-                                                                                '    </div>'+
-                                                                                '</div>');
+        $templateCache.put('assets/libs/ng-jedi-dialogs/dialogs-alert.html', DialogsConfig.uiImplementation.alert);
+        $templateCache.put('assets/libs/ng-jedi-dialogs/dialogs-confirm.html',  DialogsConfig.uiImplementation.confirm);
     }]);

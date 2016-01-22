@@ -39,7 +39,6 @@ module.exports = (grunt) ->
                     stripBanners: true
                 src: [
                     'src/intro.js',
-                    'src/dialogs-ctrls.js',
                     'src/dialogs.js',
                     'src/outro.js'
                 ]
