@@ -1,6 +1,6 @@
 {
   "name": "ng-jedi-dialogs",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Dialogs component written in angularjs",
   "repository": "https://github.com/jediproject/ng-jedi-dialogs",
   "license": "MIT",
@@ -9,20 +9,21 @@
   },
   "devDependencies": {
     "coffee-script": "~1.6.2",
-    "grunt-contrib-copy": "~0.4.1",
+    "grunt": "~0.4.1",
     "grunt-contrib-clean": "~0.4.0",
     "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-copy": "^0.8.2",
     "grunt-contrib-uglify": "~0.2.1",
-    "grunt": "~0.4.1"
+    "grunt-contrib-watch": "^0.6.1"
   },
   "main": "dialogs.js",
   "author": {
-	"name": "Fábio Henrique da Silva Viana",
-	"email": "fabioviana.bh@gmail.com",
-	"url": "http://jediproject.github.io"
+    "name": "Fábio Henrique da Silva Viana",
+    "email": "fabioviana.bh@gmail.com",
+    "url": "http://jediproject.github.io"
   },
   "keywords": [
-	  "angular",
+    "angular",
     "dialogs",
     "alert",
     "confirm",
