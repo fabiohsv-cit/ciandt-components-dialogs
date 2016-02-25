@@ -1,5 +1,5 @@
 /*
- ng-jedi-dialogs v0.0.4
+ ng-jedi-dialogs v0.0.5
  Dialogs component written in angularjs
  https://github.com/jediproject/ng-jedi-dialogs
 */
@@ -38,7 +38,7 @@
             confirm: '<div jd-modal jd-title="{{confirmTitle}}" jd-hide-close-btn>'+
                     '    <p class="text-info alert-message" jd-i18n>{{message}}</p>'+
                     '    <div class="modal-footer">'+
-                    '        <button class="btn btn-primary" ng-click="ok()" jd-i18n>{{ confirmYesLabel }}</button>'+
+                    '        <button class="btn btn-info" ng-click="ok()" jd-i18n>{{ confirmYesLabel }}</button>'+
                     '        <button class="btn btn-primary" jd-dismiss-modal jd-i18n>{{ confirmNoLabel }}</button>'+
                     '    </div>'+
                     '</div>'
