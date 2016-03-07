@@ -1,5 +1,5 @@
 /*
- ng-jedi-dialogs v0.0.5
+ ng-jedi-dialogs v0.0.7
  Dialogs component written in angularjs
  https://github.com/jediproject/ng-jedi-dialogs
 */

@@ -1,6 +1,6 @@
 {
   "name": "ng-jedi-dialogs",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "Dialogs component written in angularjs",
   "repository": "https://github.com/jediproject/ng-jedi-dialogs",
   "license": "MIT",
