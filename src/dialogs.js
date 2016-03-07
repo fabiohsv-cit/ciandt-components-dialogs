@@ -140,7 +140,7 @@
             },
             addWarn: function (message) {
                 if (typeof message == 'string') {
-                    this.addMessages(message, 'text-dangerwarning');
+                    this.addMessages(message, 'text-warning');
                 } else {
                     showMessages(message);
                 }
