@@ -174,6 +174,7 @@
                     dismissable: modal.keyboard,
                     complete: function() {
                         modalDomEl.remove();
+                        modalInstance.dismiss();
                     }
                 });
                 body.addClass(OPENED_MODAL_CLASS);
