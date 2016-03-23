@@ -5,7 +5,7 @@
 */
 (function (factory) {
     if (typeof define === 'function') {
-        define(["angular"], factory);
+        define(["angular", 'ng-jedi-layout-impl'], factory);
     } else {
         if (typeof module !== "undefined" && typeof exports !== "undefined" && module.exports === exports){
             module.exports = 'jedi.dialogs';
@@ -15,7 +15,7 @@
 }(function() {
 	"use strict";
 
-    angular.module('jedi.dialogs', []);
+    angular.module('jedi.dialogs', ['jedi.layout.impl']);
 
     angular.module('jedi.dialogs').constant('jedi.dialogs.DialogsConfig', {
         templateUrlAlert: "assets/libs/ng-jedi-dialogs/dialogs-alert.html",
@@ -25,47 +25,7 @@
         confirmTitle: 'Attention!',
         alertOkLabel: 'Ok',
         confirmYesLabel: 'Yes',
-        confirmNoLabel: 'No',
-        uiImplementation: {
-            bootstrap: {
-                alert: '<div jd-modal jd-title="{{alertTitle}}">' +
-                '    <ul class="alert-message">' +
-                '        <li class="{{ item.type }}" ng-repeat="item in items" jd-i18n>{{ item.message }}</li>' +
-                '    </ul>' +
-                '    <div class="modal-footer">' +
-                '        <button class="btn btn-primary" ng-click="ok()" jd-i18n>{{ alertOkLabel }}</button>' +
-                '    </div>' +
-                '</div>',
-                confirm: '<div jd-modal jd-title="{{confirmTitle}}" jd-hide-close-btn>' +
-                '    <p class="text-info alert-message" jd-i18n>{{message}}</p>' +
-                '    <div class="modal-footer">' +
-                '        <button class="btn btn-primary" ng-click="ok()" jd-i18n>{{ confirmYesLabel }}</button>' +
-                '        <button class="btn btn-primary" jd-dismiss-modal jd-i18n>{{ confirmNoLabel }}</button>' +
-                '    </div>' +
-                '</div>'
-            },
-            materialize: {
-                alert: '<div id="modal1" class="modal">' +
-                '           <div class="modal-content">' +
-                '               <h4 jd-i18n>{{alertTitle}}</h4>' +
-                '               <p class="{{ item.type }}" ng-repeat="item in items" jd-i18n>{{ item.message }}</p>' +
-                '           </div>' +
-                '           <div class="modal-footer">' +
-                '               <a ng-click="ok()" class=" modal-action modal-close waves-effect waves-green btn-flat" jd-i18n>{{ alertOkLabel }}</a>' +
-                '           </div>' +
-                '       </div>',
-                confirm: '<div id="modal1" class="modal modal-fixed-footer">' +
-                '           <div class="modal-content">' +
-                '               <h4 jd-i18n>{{confirmTitle}}</h4>' +
-                '               <p jd-i18n>{{ message }}</p>' +
-                '           </div>' +
-                '           <div class="modal-footer">' +
-                '               <a ng-click="ok()" jd-i18n class=" modal-action modal-close waves-effect waves-green btn-flat">{{ confirmYesLabel }}</a>' +
-                '               <a jd-dismiss-modal jd-i18n class="modal-action modal-close waves-effect waves-red btn-flat">{{ confirmNoLabel }}</a>' +
-                '           </div>' +
-                '       </div>'
-            }
-        }
+        confirmNoLabel: 'No'
     }).factory('$$materializeStackedMap', function () {
         return {
             createNew: function () {
@@ -599,13 +559,13 @@
                     });
                 }
             };
-        }]).run(['$templateCache', 'jedi.dialogs.DialogsConfig', 'jedi.layout.LayoutConfig', function ($templateCache, DialogsConfig, LayoutConfig) {
+        }]).run(['$templateCache', 'jedi.dialogs.DialogsConfig', 'jedi.layout.impl.Dialogs', function ($templateCache, DialogsConfig, uiImpl) {
             if (DialogsConfig.applyJdi18nToast) {
                 $templateCache.put('directives/toast/toast.html', "<div class=\"{{toastClass}} {{toastType}}\" ng-click=\"tapToast()\">\n  <div ng-switch on=\"allowHtml\">\n    <div ng-switch-default ng-if=\"title\" class=\"{{titleClass}}\" jd-i18n>{{title}}</div>\n    <div ng-switch-default class=\"{{messageClass}}\" jd-i18n>{{message}}</div>\n    <div ng-switch-when=\"true\" ng-if=\"title\" class=\"{{titleClass}}\" ng-bind-html=\"title\"></div>\n    <div ng-switch-when=\"true\" class=\"{{messageClass}}\" ng-bind-html=\"message\"></div>\n  </div>\n  <progress-bar ng-if=\"progressBar\"></progress-bar>\n</div>\n");
             }
 
-            $templateCache.put('assets/libs/ng-jedi-dialogs/dialogs-alert.html', DialogsConfig.uiImplementation[LayoutConfig.defaultUiImpl].alert);
-            $templateCache.put('assets/libs/ng-jedi-dialogs/dialogs-confirm.html', DialogsConfig.uiImplementation[LayoutConfig.defaultUiImpl].confirm);
+            $templateCache.put('assets/libs/ng-jedi-dialogs/dialogs-alert.html', uiImpl.alert);
+            $templateCache.put('assets/libs/ng-jedi-dialogs/dialogs-confirm.html', uiImpl.confirm);
         }]);
 
 }));
